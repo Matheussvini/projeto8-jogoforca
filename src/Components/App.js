@@ -1,4 +1,5 @@
 import GlobalStyle from "../Styles/GlobalStyle";
+import { useState } from "react";
 import styled from "styled-components";
 import palavras from "./palavras";
 import alfabeto from "./alfabeto";
@@ -10,24 +11,79 @@ import forca4 from "../Images/forca4.png";
 import forca5 from "../Images/forca5.png";
 import forca6 from "../Images/forca6.png";
 
+
+
+
 function LetterButtons(props) {
   return (
     <li>
-      <Option>{props.letter.toUpperCase()}</Option>
+      <Option onClick={() => verifyTrue(props.letter)}>{props.letter.toUpperCase()}</Option>
     </li>
   );
 }
 
+function Traço(props){
+    return(
+        <li>
+            {props.traço}
+        </li>
+    )
+}
+// function Letter(props){
+//     return(
+//         <li>
+//             {props.letter}
+//         </li>
+//     )
+// }
+
+function comparador() {
+    return Math.random() - 0.5;
+  }
+
 export default function App() {
+    const [selectedWord, setSelectedWord] = useState([]);
+    //const [tracinhos, setTracinhos] = useState([])
+
+    function ChooseWord() {
+        palavras.sort(comparador);
+        const newArray = palavras[0].split("")
+        setSelectedWord(newArray);
+            
+      }
+      
+
+      function verifyTrue(lett){
+        if(selectedWord.includes(lett)){
+            
+        }
+      }
+
+
+      
+
   return (
     <>
       <Game>
         <Forca src={forca0} />
 
         <Container>
-          <ChooseWordButton>Escolher Palavra</ChooseWordButton>
+          <ChooseWordButton onClick={ChooseWord}>Escolher Palavra</ChooseWordButton>
 
-          <AA>_ _ _ _ _ _ _ _ _ _ _ _</AA>
+          <AA>
+          {/* <List>
+            {selectedWord.map( (l,index) => (
+                    <Letter key={index} letter={l} />
+                ))}
+            </List> */}
+            <List>
+                {selectedWord.map( (t,index) => (
+                    <Traço key={index} traço={"_"} />
+                ))}
+            </List>
+
+            
+          </AA>
         </Container>
 
         <Alphabet>
@@ -50,7 +106,7 @@ export default function App() {
 const Game = styled.div`
   width: 650px;
   height: 600px;
-  background-color: aquamarine;
+  background-color: grey;
   margin: 10px auto;
   * {
     font-family: "Roboto", sans-serif;
@@ -72,7 +128,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: end;
   flex-direction: column;
-  background-color: red;
   margin-right: 30px;
   box-sizing: border-box;
 `;
@@ -100,7 +155,6 @@ const AA = styled.div`
 `;
 
 const Alphabet = styled.ul`
-  background-color: yellow;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -134,7 +188,7 @@ const Guess = styled.div`
     margin: 0 10px;
     width: 300px;
     height: 25px;
-    border: 2px solid black grey ;
+    border: 2px solid black grey;
     border-radius: 5px;
   }
 
@@ -149,3 +203,11 @@ const Guess = styled.div`
     border-radius: 3px;
   }
 `;
+
+const List = styled.ul`
+    display:flex;
+
+    li{
+        margin: 0 5px;
+    }
+`
